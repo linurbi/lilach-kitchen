@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>המטבח של לילך</title>
+<meta name="description" content="ספר המתכונים המשפחתי של לילך">
+<meta property="og:title" content="המטבח של לילך">
+<meta property="og:description" content="מתכונים שנאספו בדבקות ובאהבה">
+<meta property="og:image" content="images/lilach.jpg">
+<meta name="theme-color" content="#e9e8e5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gveret+Levin&family=Assistant:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<section id="cover" class="cover">
+  <article class="sheet cover-sheet">
+    <p class="running">ספר מתכונים משפחתי</p>
+    <div class="plate plate-xl"><img src="images/lilach.jpg" alt="לילך"></div>
+    <h1 class="cover-title">המטבח של לילך</h1>
+    <span class="hair"></span>
+    <p class="cover-sub">מתכונים שנאספו בדבקות ובאהבה</p>
+    <p class="dedication">לילך היקרה, כל מתכון בספר זה נולד ממטבח מלא ריחות טובים — מידיים שיודעות בדיוק כמה להוסיף, ומאהבה שתמיד הגיעה ראשונה לשולחן. אנחנו אוהבים אותך מאוד.</p>
+    <div class="signed">
+      <p class="label">הוגש בחיבה מאת</p>
+      <p>קרן · יאיר · לינור · מעיין · מתן · מורן · רנן</p>
+      <p class="soft">ליה · רומי · אמה · עומר · אגם · לביא · אור</p>
+    </div>
+    <button type="button" id="openBook" class="btn">פתחי את הספר</button>
+  </article>
+</section>
+
+<div id="app" hidden>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button type="button" id="homeBtn" class="wordmark">המטבח של לילך</button>
+      <nav class="tabs">
+        <button type="button" id="libraryBtn" class="tab on">תוכן העניינים</button>
+        <button type="button" id="listBtn" class="tab">רשימת קניות <span id="listCount" class="count">0</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="desk">
+    <section id="view-library" class="sheet toc">
+      <div class="toc-head">
+        <p class="running">תוכן העניינים</p>
+        <h2 class="sheet-title">כל המתכונים</h2>
+        <span class="hair"></span>
+        <label class="search">
+          <span class="visually-hidden">חיפוש</span>
+          <input id="searchInput" type="search" placeholder="חיפוש מתכון או מרכיב">
+        </label>
+        <nav id="categories" class="chapters"></nav>
+      </div>
+      <div id="featured"></div>
+      <div id="sections"></div>
+    </section>
+
+    <section id="view-recipe" hidden></section>
+
+    <section id="view-list" class="sheet" hidden>
+      <p class="running">לקראת הקנייה</p>
+      <div class="list-head">
+        <div>
+          <h2 class="sheet-title">רשימת קניות</h2>
+          <span class="hair"></span>
+          <p class="soft">אותו מרכיב ממתכונים שונים מתחבר לשורה אחת.</p>
+        </div>
+        <div class="actions">
+          <button type="button" id="copyList" class="btn-line">שליחת הרשימה</button>
+          <button type="button" id="printList" class="btn-line">הדפסה</button>
+          <button type="button" id="clearList" class="btn-line">ניקוי</button>
+        </div>
+      </div>
+      <div class="list-grid">
+        <div>
+          <h3 class="block-title">מתכונים שנבחרו</h3>
+          <div id="picked"></div>
+        </div>
+        <div>
+          <h3 class="block-title">מה לקנות</h3>
+          <div id="shop"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="lightbox" class="lightbox" hidden>
+  <button type="button" class="lightbox-close" id="lightboxClose">סגירה</button>
+  <img id="lightboxImg" alt="">
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="recipes.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
