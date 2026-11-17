@@ -483,6 +483,7 @@ mark { background: #fbefc4; color: var(--ink); padding: 0 3px; }
 .steps li { align-items: baseline; }
 .ingredients td { vertical-align: baseline; }
 .ingredients td.q { font-family: var(--sans); font-size: 17px; font-weight: 500; color: var(--green); letter-spacing: 0; }
+.ingredients td.q .num { margin-left: 0.45em; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
