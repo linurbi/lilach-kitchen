@@ -299,9 +299,9 @@
     }).join("");
 
     const ingredients = recipe.ingredients.map(function (line) {
-      if (isHeading(line)) return "<tr class=\"group\"><td colspan=\"2\">" + rich(String(line).replace(/:\s*$/, "")) + "</td></tr>";
+      if (isHeading(line)) return "<p class=\"ing-group\">" + rich(String(line).replace(/:\s*$/, "")) + "</p>";
       const parts = splitQty(cleanIngredient(line));
-      return "<tr><td class=\"q\">" + rich(parts[0]) + "</td><td class=\"i\">" + rich(parts[1]) + "</td></tr>";
+      return "<p class=\"ing\">" + (parts[0] ? "<span class=\"qty\">" + rich(parts[0]) + "</span> " : "") + "<span class=\"ing-name\">" + rich(parts[1]) + "</span></p>";
     }).join("");
 
     const photo = recipe.photos.length
@@ -331,7 +331,7 @@
           "</div>" +
           "<div class=\"recipe-actions\"><button type=\"button\" id=\"addRecipe\" class=\"btn" + (picked ? " added" : "") + "\">" + (picked ? "✓ ברשימת הקניות" : "הוספה לרשימת הקניות") + "</button></div>" +
           "<h2 class=\"sub-title\">מרכיבים</h2>" +
-          "<table class=\"ingredients\"><tbody>" + ingredients + "</tbody></table>" +
+          "<div class=\"ing-list\">" + ingredients + "</div>" +
           "<div class=\"folio\"><span>" + bookPage[id] + "</span><span>המטבח של לילך</span></div>" +
         "</div>" +
         "<div class=\"page\">" +

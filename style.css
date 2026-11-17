@@ -483,7 +483,19 @@ mark { background: #fbefc4; color: var(--ink); padding: 0 3px; }
 .steps li { align-items: baseline; }
 .ingredients td { vertical-align: baseline; }
 .ingredients td.q { font-family: var(--serif); font-size: 17px; font-weight: 400; color: var(--ink); letter-spacing: 0; }
-.ingredients td.q .num { font-family: var(--sans); font-weight: 500; font-size: 0.95em; margin-left: 0.4em; }
+.ing-list { margin: 0; }
+.ing {
+  margin: 0;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.ing .qty { color: var(--green); }
+.ing .num { font-family: var(--sans); font-weight: 500; font-size: 0.95em; }
+.ing-group { margin: 0; padding: 14px 0 4px; font-family: var(--serif); font-size: 18px; color: var(--green); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
