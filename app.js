@@ -57,7 +57,7 @@
   function rich(value) {
     return esc(value)
       .replace(/([\u05D0-\u05EA])(?=\d)/g, "$1 ")
-      .replace(/\d+(?:[.,\/]\d+)*/g, "<span class=\"num\">$&</span>")
+      .replace(/\d+(?:[.,\/]\d+)*°?/g, "<span class=\"num\">$&</span>")
       .replace(/\[\?\]/g, "<mark>[?]</mark>");
   }
   function isHeading(line) { return /:\s*$/.test(String(line).trim()); }
@@ -281,6 +281,12 @@
     els.sections.innerHTML = html || "<p class=\"empty\">לא נמצאו מתכונים. אפשר לנסות מילה אחרת.</p>";
   }
 
+  function recipeHeading(name) {
+    const match = String(name).match(/^(.*?)\s*[(\[]\s*([^)\]]+?)\s*[)\]]\s*$/);
+    if (match && match[1].trim()) return { title: match[1].trim(), sub: match[2].trim() };
+    return { title: String(name).trim(), sub: "" };
+  }
+
   /* ---------- Recipe ---------- */
   function renderRecipe(id) {
     const recipe = byId(id);
@@ -288,58 +294,59 @@
     const picked = store.picks[id];
     const times = picked || draftTimes;
     const hasGap = recipe.ingredients.concat(recipe.steps).some(function (l) { return String(l).indexOf("[?]") !== -1; });
+    const heading = recipeHeading(recipe.name);
 
     let n = 0;
-    let total = 0;
     const steps = stepItems(recipe).map(function (item) {
       if (item.group) { n = 0; return "<li class=\"group\"><span class=\"t\">" + rich(item.text) + "</span></li>"; }
       n += 1;
-      total += 1;
       return "<li><span class=\"n\">" + n + "</span><span class=\"t\">" + rich(item.text) + "</span></li>";
     }).join("");
 
     const ingredients = recipe.ingredients.map(function (line) {
       if (isHeading(line)) return "<p class=\"ing-group\">" + rich(String(line).replace(/:\s*$/, "")) + "</p>";
       const parts = splitQty(cleanIngredient(line));
-      return "<p class=\"ing\">" + (parts[0] ? "<span class=\"qty\">" + rich(parts[0]) + "</span> " : "") + "<span class=\"ing-name\">" + rich(parts[1]) + "</span></p>";
+      return "<p class=\"ing\">" + (parts[0] ? "<span class=\"qty\">" + rich(parts[0]) + "</span> " : "") + rich(parts[1]) + "</p>";
     }).join("");
 
-    const photo = recipe.photos.length
-      ? "<div class=\"plate\"><img src=\"" + food(recipe.photos[photoIndex]) + "\" alt=\"" + esc(recipe.name) + "\"></div>" +
-        (recipe.photos.length > 1 ? "<div class=\"thumbs\">" + recipe.photos.map(function (p, i) {
+    let photo = "";
+    if (recipe.photos.length || recipe.ai) {
+      const src = recipe.photos.length ? food(recipe.photos[photoIndex] || recipe.photos[0]) : "images/" + recipe.ai;
+      const thumbs = recipe.photos.length > 1
+        ? "<div class=\"thumbs\">" + recipe.photos.map(function (p, i) {
           return "<button type=\"button\" data-photo=\"" + i + "\" class=\"" + (i === photoIndex ? "on" : "") + "\"><img src=\"" + food(p) + "\" alt=\"\"></button>";
-        }).join("") + "</div>" : "")
-      : recipe.ai
-        ? "<div class=\"plate\"><img src=\"images/" + recipe.ai + "\" alt=\"\"></div><p class=\"ai-note\">תמונה להמחשה</p>"
+        }).join("") + "</div>"
         : "";
-
-    const fact = function (icon, key, value) {
-      return "<div class=\"fact\">" + ICONS[icon] + "<span class=\"k\">" + key + "</span>" + value + "</div>";
-    };
+      photo = "<figure class=\"recipe-photo\"><img src=\"" + src + "\" alt=\"" + esc(heading.title) + "\">" +
+        (recipe.photos.length ? "" : "<figcaption>תמונה להמחשה</figcaption>") + thumbs + "</figure>";
+    }
 
     els.recipe.innerHTML =
-      "<article class=\"spread\">" +
-        "<div class=\"page\">" +
-          "<p class=\"running\"><button type=\"button\" class=\"crumb\" data-cat-go=\"" + esc(recipe.category) + "\">" + esc(recipe.category) + "</button><span>המטבח של לילך</span></p>" +
-          photo +
-          "<h1 class=\"recipe-title\">" + esc(recipe.name) + "</h1>" +
-          "<div class=\"facts\">" +
-            fact("list", "מרכיבים", "<span class=\"v\">" + ingredientCount(recipe) + "</span>") +
-            fact("steps", "שלבים", "<span class=\"v\">" + (total || "—") + "</span>") +
-            fact("scale", "כמות", "<span class=\"v stepper\"><button type=\"button\" id=\"more\" aria-label=\"יותר\">+</button><output id=\"times\">" + timesLabel(times) + "</output><button type=\"button\" id=\"less\" aria-label=\"פחות\">−</button></span>") +
-            fact("book", "במחברת", recipe.notebook ? "<button type=\"button\" class=\"v\" id=\"openNotebook\">עמוד " + recipe.page + "</button>" : "<span class=\"v\">עמוד " + recipe.page + "</span>") +
+      "<article class=\"recipe\">" +
+        "<header class=\"recipe-head\">" +
+          "<div class=\"recipe-intro\">" +
+            "<p class=\"from-notebook\">מהמחברת של לילך</p>" +
+            "<h1 class=\"recipe-title\">" + esc(heading.title) + "</h1>" +
+            (heading.sub ? "<p class=\"recipe-sub\">" + rich(heading.sub) + "</p>" : "") +
+            "<div class=\"recipe-tools\">" +
+              "<div class=\"qty-step\"><button type=\"button\" id=\"more\" aria-label=\"יותר\">+</button><output id=\"times\">" + timesLabel(times) + "</output><button type=\"button\" id=\"less\" aria-label=\"פחות\">−</button></div>" +
+              (recipe.notebook ? "<button type=\"button\" class=\"notebook-link\" id=\"openNotebook\">עמוד " + recipe.page + "</button>" : "") +
+            "</div>" +
           "</div>" +
-          "<div class=\"recipe-actions\"><button type=\"button\" id=\"addRecipe\" class=\"btn" + (picked ? " added" : "") + "\">" + (picked ? "✓ ברשימת הקניות" : "הוספה לרשימת הקניות") + "</button></div>" +
-          "<h2 class=\"sub-title\">מרכיבים</h2>" +
-          "<div class=\"ing-list\">" + ingredients + "</div>" +
-          "<div class=\"folio\"><span>" + bookPage[id] + "</span><span>המטבח של לילך</span></div>" +
-        "</div>" +
-        "<div class=\"page\">" +
-          "<p class=\"running\"><span>" + esc(recipe.name) + "</span><span>" + esc(recipe.category) + "</span></p>" +
-          "<h2 class=\"sub-title\" style=\"margin-top:0\">אופן ההכנה</h2>" +
-          (steps ? "<ol class=\"steps\">" + steps + "</ol>" : "<p class=\"note\">אופן ההכנה עדיין לא הועתק מהמחברת. אפשר לקרוא אותו בצילום הדף.</p>") +
-          (hasGap ? "<p class=\"note\">מילה שלא נקראה בכתב היד מסומנת <mark>[?]</mark>. אפשר לבדוק בצילום הדף מהמחברת.</p>" : "") +
-          "<div class=\"folio\"><span>המטבח של לילך</span><span>" + bookPage[id] + "</span></div>" +
+          photo +
+        "</header>" +
+        "<hr class=\"recipe-rule\">" +
+        "<div class=\"recipe-body\">" +
+          "<section class=\"recipe-col\">" +
+            "<h2>מרכיבים</h2>" +
+            "<div class=\"ing-list\">" + ingredients + "</div>" +
+            "<button type=\"button\" id=\"addRecipe\" class=\"btn" + (picked ? " added" : "") + "\">" + (picked ? "✓ ברשימת הקניות" : "הוספה לרשימת הקניות") + "</button>" +
+          "</section>" +
+          "<section class=\"recipe-col\">" +
+            "<h2>אופן ההכנה</h2>" +
+            (steps ? "<ol class=\"steps\">" + steps + "</ol>" : "<p class=\"note\">אופן ההכנה עדיין לא הועתק מהמחברת. אפשר לקרוא אותו בצילום הדף.</p>") +
+            (hasGap ? "<p class=\"note\">מילה שלא נקראה בכתב היד מסומנת <mark>[?]</mark>. אפשר לבדוק בצילום הדף מהמחברת.</p>" : "") +
+          "</section>" +
         "</div>" +
       "</article>";
 
