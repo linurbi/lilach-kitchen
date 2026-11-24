@@ -1066,3 +1066,14 @@ body.is-library .entries { margin-bottom: 4px; }
 @media (max-width: 600px) {
   .recipe-title, .recipe-title[style] { font-size: 28px; }
 }
+/* ---------- Less space above the recipe name ---------- */
+#view-recipe { padding-top: 12px; }
+.recipe-head { padding-top: 6.5cqw; }
+.from-notebook { top: 1.2cqw; }
+.recipe-tools { margin-top: 2.6cqw; }
+@media (max-width: 600px) {
+  #view-recipe { padding-top: 6px; }
+  .recipe-head { padding-top: 30px; }
+  .from-notebook { top: 6px; }
+  .recipe-tools { margin-top: 14px; }
+}
