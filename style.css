@@ -876,7 +876,7 @@ body.is-library #sections { max-width: none; }
 body.is-library .sheet-title {
   font-family: var(--hand);
   font-weight: 400;
-  font-size: clamp(46px, 6vw, 68px);
+  font-size: clamp(32px, 3.6vw, 44px);
   line-height: 1.15;
   color: #f2ede0;
 }
@@ -886,7 +886,7 @@ body.is-library .chapter { margin-top: 22px; }
 body.is-library .chapter-toggle {
   font-family: var(--hand);
   font-weight: 400;
-  font-size: 28px;
+  font-size: 20px;
   color: #f2ede0;
 }
 body.is-library .chapter-rule {
@@ -894,10 +894,10 @@ body.is-library .chapter-rule {
   margin: 10px 0 2px;
   background: rgba(168, 173, 178, 0.35);
 }
-body.is-library .entry-name { font-size: 20px; }
+body.is-library .entry-name { font-size: 17px; }
 @media (max-width: 700px) {
   body.is-library .toc { padding: 28px 18px 56px; }
-  body.is-library .chapter-toggle { font-size: 24px; }
+  body.is-library .chapter-toggle { font-size: 19px; }
 }
 
 /* ---------- Cover: a photograph, not a floating oval ---------- */
@@ -1008,9 +1008,9 @@ body.is-recipe .desk, body.is-library .desk { max-width: none; padding: 0; }
 
 /* one handwriting for every heading, on every page */
 h1, h2, h3, h4, .block-title, .sheet-title, .aisle h4 { font-family: var(--hand); font-weight: 400; }
-.sheet-title { font-size: clamp(46px, 6vw, 68px); line-height: 1.15; color: #f2ede0; }
-.block-title { font-size: 26px; }
-.aisle h4 { font-size: 24px; }
+.sheet-title { font-size: clamp(32px, 3.6vw, 44px); line-height: 1.15; color: #f2ede0; }
+.block-title { font-size: 19px; }
+.aisle h4 { font-size: 18px; }
 /* ---------- Side margins of every page: the blurred photo color, fading to navy in the middle ---------- */
 body::before {
   content: "";
@@ -1033,3 +1033,16 @@ body::before {
 @media (max-width: 700px) {
   body::before { display: none; }
 }
+/* ---------- Contents and list: calmer handwriting sizes ---------- */
+.sheet-title, body.is-library .sheet-title { font-size: clamp(26px, 2.8vw, 36px); line-height: 1.15; }
+body.is-library .running, .running { font-size: 15px; margin-bottom: 14px; }
+body.is-library .chapter-toggle { font-size: 17px; }
+body.is-library .entry-name { font-size: 16px; }
+body.is-library .entry-page { font-size: 13px; }
+body.is-library .chapters button { font-size: 14px; }
+body.is-library .search input { font-size: 15px; }
+body.is-library .chapter { margin-top: 16px; }
+body.is-library .chapter-rule { margin: 6px 0 0; }
+.block-title { font-size: 17px; }
+.aisle h4 { font-size: 16px; }
+.item .label { font-size: 15px; }
