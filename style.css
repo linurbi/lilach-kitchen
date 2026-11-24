@@ -1046,3 +1046,18 @@ body.is-library .chapter-rule { margin: 6px 0 0; }
 .block-title { font-size: 17px; }
 .aisle h4 { font-size: 16px; }
 .item .label { font-size: 15px; }
+/* ---------- Contents: tighter spacing so the whole list fits on the screen ---------- */
+body.is-library .toc { padding: 20px 24px 40px; }
+body.is-library .toc-head .running { margin-bottom: 6px; }
+body.is-library .toc .hair { margin: 10px 0 12px; }
+body.is-library .search input { padding: 6px 0; margin-top: 2px; }
+body.is-library .chapters { margin-top: 12px; gap: 4px 18px; }
+body.is-library .chapter { margin-top: 8px; }
+body.is-library .chapter-toggle { padding: 2px 0; }
+body.is-library .chapter-rule { margin: 4px 0 0; }
+body.is-library .entry { padding: 3px 0; }
+body.is-library .entries { margin-bottom: 4px; }
+@media (max-height: 900px) and (min-width: 701px) {
+  body.is-library .toc { padding-top: 14px; }
+  body.is-library .sheet-title { font-size: clamp(24px, 2.6vw, 32px); }
+}
