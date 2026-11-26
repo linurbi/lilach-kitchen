@@ -467,7 +467,7 @@
 
   function listText() {
     const groups = shopping();
-    return "רשימת קניות — המטבח של לילך\n\n" + AISLE_ORDER.filter(function (a) { return groups[a]; }).map(function (a) {
+    return "רשימת קניות — המטבח של רוחי\n\n" + AISLE_ORDER.filter(function (a) { return groups[a]; }).map(function (a) {
       return a + "\n" + groups[a].map(function (i) { return "• " + i.label; }).join("\n");
     }).join("\n\n");
   }
