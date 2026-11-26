@@ -1077,3 +1077,18 @@ body.is-library .entries { margin-bottom: 4px; }
   .from-notebook { top: 6px; }
   .recipe-tools { margin-top: 14px; }
 }
+/* ---------- Phones: keep ingredients and preparation side by side, like on desktop ---------- */
+@media (max-width: 600px) {
+  .cols {
+    display: grid;
+    grid-template-columns: minmax(0, 37fr) minmax(0, 4fr) minmax(0, 59fr);
+    margin-inline: 3cqw;
+  }
+  .page-r { order: 0; padding-bottom: 0; border-bottom: 0; }
+  .page-l { order: 0; }
+  .cols::before { display: block; inset-inline-start: 39%; top: 7cqw; }
+  .rule-icon { position: absolute; order: 0; inset-inline-start: 39%; transform: translateX(50%); width: 7cqw; height: 6.4cqw; margin: 0; top: -0.5cqw; }
+  .page h2 { font-size: 17px; }
+  .ing, .steps li, .steps .t, .steps .n { font-size: 13.5px; line-height: 1.4; }
+  .ing-group, .steps li.group .t { font-size: 14.5px; }
+}
